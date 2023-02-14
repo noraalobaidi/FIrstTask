@@ -17,20 +17,26 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     TextView data;
     String url;
+    TextView rateConvertor;
+    String rateURL;
+    String APIkey="CUDJOz7iGPwQXHOQVJ8BSBIOQyxj5iX2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        data =findViewById(R.id.data);
-        url="https://api.apilayer.com/bank_data/iban_validate?iban_number=DE89370400440532013000&apikey=CUDJOz7iGPwQXHOQVJ8BSBIOQyxj5iX2";
-        JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+        rateConvertor =findViewById(R.id.rateConvertor);
+
+        rateURL="https://api.apilayer.com/fixer/convert?to=KWD&from=USD&amount=10&apikey="+APIkey;
+
+        JsonObjectRequest RATErequest= new JsonObjectRequest(Request.Method.GET,rateURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    String IBANvalidtag= response.getString("valid");
-                    data.setText(IBANvalidtag);
+                    String conversionAmount= response.getString("result");
+                    rateConvertor.setText(conversionAmount);
 
                 }
                 catch(Exception error){
@@ -45,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        Volley.newRequestQueue(this).add(request);
+
+        Volley.newRequestQueue(this).add(RATErequest);
 
 
     }
