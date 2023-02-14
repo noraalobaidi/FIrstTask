@@ -3,6 +3,7 @@ package com.example.firsttask;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,11 +16,12 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-    TextView data;
-    String url;
+    TextView ibanValidation;
     TextView rateConvertor;
+    String ibanURL;
     String rateURL;
     String APIkey="CUDJOz7iGPwQXHOQVJ8BSBIOQyxj5iX2";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +57,32 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(RATErequest);
 
 
+    }
+    public void checkIBAN(View view) {
+        System.out.println("button clicked");
+        ibanValidation =findViewById(R.id.ibanValidation);
+        ibanURL="https://api.apilayer.com/bank_data/iban_validate?iban_number=DE89370400440532013000&apikey="+APIkey;
+        JsonObjectRequest IBANrequest= new JsonObjectRequest(Request.Method.GET, ibanURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    String IBANvalidtag= response.getString("valid");
+                    ibanValidation.setText(IBANvalidtag);
+                    System.out.println("buttonnn clicked"+IBANvalidtag);
+
+                }
+                catch(Exception error){
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Volley.newRequestQueue(this).add(IBANrequest);
     }
 }
