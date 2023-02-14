@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 
@@ -18,6 +19,8 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     TextView ibanValidation;
     TextView rateConvertor;
+
+    TextInputEditText ibanInputField;
     String ibanURL;
     String rateURL;
     String APIkey="CUDJOz7iGPwQXHOQVJ8BSBIOQyxj5iX2";
@@ -61,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
     public void checkIBAN(View view) {
         System.out.println("button clicked");
         ibanValidation =findViewById(R.id.ibanValidation);
-        ibanURL="https://api.apilayer.com/bank_data/iban_validate?iban_number=DE89370400440532013000&apikey="+APIkey;
+        ibanInputField  = (TextInputEditText) findViewById(R.id.valueIBAN);
+        String givenIBAN = ibanInputField.getText().toString();
+//        DE89370400440532013000
+        ibanURL="https://api.apilayer.com/bank_data/iban_validate?iban_number="+givenIBAN+"&apikey="+APIkey;
         JsonObjectRequest IBANrequest= new JsonObjectRequest(Request.Method.GET, ibanURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

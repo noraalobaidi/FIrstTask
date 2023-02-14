@@ -41,6 +41,7 @@
         tools:layout_editor_absoluteY="73dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/valueIBAN"
             android:layout_width="286dp"
             android:layout_height="wrap_content"
             android:hint="Enter your IBAN" />
